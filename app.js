@@ -40,11 +40,9 @@ function enterHandler(e){
 function displayTaskToUi(taskName){
     const li = document.createElement('li');
     li.innerHTML = `
-            <span>${taskName}</span>
-            <span>
+                <span id='taskName'>${taskName}</span>
                 <button id="edit">E</button>
-                <button id="delete">X</button>
-            </span>`;
+                <button id="delete">X</button> `;
     taskTodoList.appendChild(li)
 }
 
@@ -72,8 +70,38 @@ function getTaskFromLocalStorage(){
     return tasks;
 }
 
+// Display All task to ui while page load
+function loadAllTaskFromUi(){
+    const tasks = getTaskFromLocalStorage();
+    tasks.forEach((taskName => displayTaskToUi(taskName)))
+}
+
+loadAllTaskFromUi();
+
+// delete data steps
+function deleteTaskFromLocalStorage(taskName){
+    const tasks = getTaskFromLocalStorage();
+    const taskAfterDeleting = tasks.filter((task)=> task !== taskName)
+    addTasksToLocalStorage(taskAfterDeleting)
+}
+
+function deleteHandler(targetEl){
+      const li = targetEl.parentElement;
+      const taskName = li.querySelector('#taskName').textContent;
+      li.remove();
+      deleteTaskFromLocalStorage(taskName)
+}
+
+function actionHandler(e){
+    const targetEl = e.target;
+   if(targetEl.id === 'delete'){
+    deleteHandler(targetEl);
+   }
+
+}
 
 
 // AddEventListener function create
 addTaskBtn.addEventListener('click', addBtnTask);
-taskInput.addEventListener('keypress', enterHandler)
+taskInput.addEventListener('keypress', enterHandler);
+taskTodoList.addEventListener('click', actionHandler);
