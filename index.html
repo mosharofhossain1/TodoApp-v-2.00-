@@ -5,13 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TodoApp-Version-2.00</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="fav_icon.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <script defer src="app.js"></script>
 </head>
 
 <body>
-    <h1>Version is comming</h1>
+    <div class="todoContainer">
+        <div class="inputArea">
+            <input type="text" placeholder="Enter Your Task">
+            <button>Add New Task</button>
+        </div>
+        <ul id="todoList">
+            <span>TaskName</span>
+            <span>
+                <button id="edit">E</button>
+                <button id="delete">X</button>
+            </span>
+        </ul>
+    </div>
 </body>
 
 </html>
