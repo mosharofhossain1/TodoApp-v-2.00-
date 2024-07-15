@@ -92,13 +92,60 @@ function deleteHandler(targetEl){
       deleteTaskFromLocalStorage(taskName)
 }
 
+// edit handler steps
+function updateTaskToLocalStorage(newTaskName, preVal){
+    const tasks = getTaskFromLocalStorage();
+    const taskAfterDeleting = tasks.map((taskName)=>{
+        if(taskName === preVal){
+            return newTaskName;
+        }
+        else{
+            return taskName;
+        }
+    });
+
+    addTasksToLocalStorage(taskAfterDeleting)
+}
+function eventHandler(e, preVal){
+    const input = e.target;
+    if(e.key === 'Enter'){
+        updateTask(input, preVal)
+    }
+}
+
+function updateTask(input, preVal){
+    const newTaskName = input.value;
+    const li = input.parentElement;
+    li.innerHTML = `<span id='taskName'>${newTaskName}</span>
+                    <button id="edit">E</button>
+                    <button id="delete">X</button> `;
+                    updateTaskToLocalStorage(newTaskName, preVal)
+    
+}
+function updateHandler(e, preVal){
+    const input = e.target.previousElmentsibling;
+    updateTask(input, preVal)
+}
+function editHandler(targetEl){
+    const li = targetEl.parentElement;
+    const preVal = li.querySelector('#taskName').textContent;
+    li.innerHTML = 
+    ` <input onkeypress ="eventHandler(event, '${preVal}')" value='${preVal}'
+    <button onclick ="updateHandler(event, '${preVal}')">Edit</button>
+    `;
+}
+
+
 function actionHandler(e){
     const targetEl = e.target;
    if(targetEl.id === 'delete'){
     deleteHandler(targetEl);
    }
-
+   else if(targetEl.id === 'edit'){
+    editHandler(targetEl)
+   }
 }
+
 
 
 // AddEventListener function create
